@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomGoogleMap extends StatefulWidget {
@@ -11,13 +14,26 @@ class CustomGoogleMap extends StatefulWidget {
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   late CameraPosition initialCameraPosition;
   late GoogleMapController googleMapController;
+
   @override
   void initState() {
+    super.initState();
+    initMapStyle();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
       zoom: 18,
     );
-    super.initState();
+  }
+
+  String? _mapStyle;
+
+  Future<void> initMapStyle() async {
+    final style = await rootBundle.loadString(
+      'assets/map_styles/night_style.json',
+    );
+    setState(() {
+      _mapStyle = style;
+    });
   }
 
   @override
@@ -25,17 +41,11 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     return Stack(
       children: [
         GoogleMap(
-          mapType: MapType.hybrid,
+          initialCameraPosition: initialCameraPosition,
+          style: _mapStyle,
           onMapCreated: (controller) {
             googleMapController = controller;
           },
-          initialCameraPosition: initialCameraPosition,
-          // cameraTargetBounds: CameraTargetBounds(
-          //   LatLngBounds(
-          //     southwest: LatLng(30.75864419416391, 31.31512885984136),
-          //     northeast: LatLng(30.768090681310408, 31.32845033933248),
-          //   ),
-          // ),
         ),
         Positioned(
           left: 16,
@@ -43,12 +53,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           bottom: 16,
           child: ElevatedButton(
             onPressed: () {
-              CameraPosition newCameraPosition = CameraPosition(
-                zoom: 18,
-                target: LatLng(30.768090681310408, 31.32845033933248),
-              );
               googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(newCameraPosition),
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    zoom: 18,
+                    target: LatLng(30.768090681310408, 31.32845033933248),
+                  ),
+                ),
               );
             },
             child: Text('Change Location'),
