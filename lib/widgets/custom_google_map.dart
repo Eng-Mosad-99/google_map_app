@@ -19,6 +19,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void initState() {
     super.initState();
     initMapStyle();
+    initMarkers();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
       zoom: 18,
@@ -36,6 +37,16 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     });
   }
 
+  Set<Marker> markers = {};
+
+  void initMarkers() {
+    var myMarkers = Marker(
+      markerId: MarkerId('1'),
+      position: LatLng(30.762578494071878, 31.31647130125389),
+    );
+    markers.add(myMarkers);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -46,6 +57,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           onMapCreated: (controller) {
             googleMapController = controller;
           },
+          markers: markers,
         ),
         Positioned(
           left: 16,
