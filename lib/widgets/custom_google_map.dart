@@ -23,7 +23,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initMarkers();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
-      zoom: 18,
+      zoom: 14,
     );
   }
 
@@ -44,6 +44,9 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var myMarkers = places
         .map(
           (place) => Marker(
+            infoWindow: InfoWindow(
+              title: place.name,
+            ),
             position: place.latLng,
             markerId: MarkerId(place.id.toString()),
           ),
