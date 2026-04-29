@@ -25,6 +25,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     return Stack(
       children: [
         GoogleMap(
+          mapType: MapType.hybrid,
           onMapCreated: (controller) {
             googleMapController = controller;
           },
