@@ -20,7 +20,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,7 +42,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           bottom: 16,
           child: ElevatedButton(
             onPressed: () {
-              
+              CameraPosition newCameraPosition = CameraPosition(
+                zoom: 18,
+                target: LatLng(30.768090681310408, 31.32845033933248),
+              );
+              googleMapController.animateCamera(
+                CameraUpdate.newCameraPosition(newCameraPosition),
+              );
             },
             child: Text('Change Location'),
           ),
