@@ -44,7 +44,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var imageData = await rootBundle.load(image);
     var imageCodec = await ui.instantiateImageCodec(
       imageData.buffer.asUint8List(),
-      targetWidth: width.toInt(),
+      targetWidth: width.round(),
     );
     var imageFrame = await imageCodec.getNextFrame();
     var imageByteData = await imageFrame.image.toByteData(
@@ -52,9 +52,34 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     );
     return imageByteData!.buffer.asUint8List();
   }
+Future<BitmapDescriptor> getColoredMarker(Color color) async {
+  final ByteData data = await rootBundle.load('assets/images/marker_image.png');
+  final Uint8List bytes = data.buffer.asUint8List();
+
+  final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+  final ui.FrameInfo frame = await codec.getNextFrame();
+  final ui.Image image = frame.image;
+
+  final recorder = ui.PictureRecorder();
+  final canvas = Canvas(recorder);
+
+  final paint = Paint()
+    ..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+
+  canvas.drawImage(image, Offset.zero, paint);
+
+  final picture = recorder.endRecording();
+  final img = await picture.toImage(image.width, image.height);
+  final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+
+  return BitmapDescriptor.bytes(byteData!.buffer.asUint8List() , width: 30);
+}
 
   void initMarkers() async {
-    var markerAssetImage =  BitmapDescriptor.bytes(await getImageFromRawData('assets/images/marker_image.png', 30));
+    // var markerAssetImage = BitmapDescriptor.bytes(
+    //   await getImageFromRawData('assets/images/marker_image.png', 30),
+    // );
+    var  customIcon = await getColoredMarker(Colors.red);
     //  BitmapDescriptor.asset(
     //   width: 30,
     //   ImageConfiguration.empty,
@@ -63,7 +88,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var myMarkers = places
         .map(
           (place) => Marker(
-            icon: markerAssetImage,
+            icon: customIcon,
             infoWindow: InfoWindow(title: place.name),
             position: place.latLng,
             markerId: MarkerId(place.id.toString()),
@@ -71,6 +96,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         )
         .toSet();
     markers.addAll(myMarkers);
+      setState(() {});
   }
 
   @override
