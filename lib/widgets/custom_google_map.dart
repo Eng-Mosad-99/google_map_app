@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_app/models/place_model.dart';
@@ -40,11 +40,26 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
   Set<Marker> markers = {};
 
-  void initMarkers() async {
-    var markerAssetImage = await BitmapDescriptor.asset(
-      ImageConfiguration.empty,
-      'assets/images/marker_image.png',
+  Future<Uint8List> getImageFromRawData(String image, double width) async {
+    var imageData = await rootBundle.load(image);
+    var imageCodec = await ui.instantiateImageCodec(
+      imageData.buffer.asUint8List(),
+      targetWidth: width.toInt(),
     );
+    var imageFrame = await imageCodec.getNextFrame();
+    var imageByteData = await imageFrame.image.toByteData(
+      format: ui.ImageByteFormat.png,
+    );
+    return imageByteData!.buffer.asUint8List();
+  }
+
+  void initMarkers() async {
+    var markerAssetImage =  BitmapDescriptor.bytes(await getImageFromRawData('assets/images/marker_image.png', 30));
+    //  BitmapDescriptor.asset(
+    //   width: 30,
+    //   ImageConfiguration.empty,
+    //   'assets/images/marker_image.png',
+    // );
     var myMarkers = places
         .map(
           (place) => Marker(
