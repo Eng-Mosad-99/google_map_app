@@ -40,13 +40,16 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
   Set<Marker> markers = {};
 
-  void initMarkers() {
+  void initMarkers() async {
+    var markerAssetImage = await BitmapDescriptor.asset(
+      ImageConfiguration.empty,
+      'assets/images/marker_image.png',
+    );
     var myMarkers = places
         .map(
           (place) => Marker(
-            infoWindow: InfoWindow(
-              title: place.name,
-            ),
+            icon: markerAssetImage,
+            infoWindow: InfoWindow(title: place.name),
             position: place.latLng,
             markerId: MarkerId(place.id.toString()),
           ),
