@@ -220,3 +220,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 // city view ==> 10 - 12
 // street view ==> 13 - 17
 // building view ==> 18 - 20
+
+
+/// Steps to get user location
+  // inquire about location service
+  // request permission
+  // get user location
+  // display location 
