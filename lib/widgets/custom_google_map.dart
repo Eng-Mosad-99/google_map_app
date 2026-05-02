@@ -22,9 +22,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initMapStyle();
     initMarkers();
     initPolyline();
+    initPolygon();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
-      zoom: 1,
+      zoom: 14,
     );
   }
 
@@ -137,13 +138,30 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     polylines.add(polyline);
     // polylines.add(polyline2);
   }
+  Set<Polygon> polygons = {};
+  void initPolygon() {
+    Polygon polygon = Polygon(
+      fillColor: Colors.red.withValues(alpha: .4),
+      strokeColor: Colors.red.withValues(alpha: .4),
+      strokeWidth: 2,
+      polygonId: PolygonId('1'),
+      points: [
+        LatLng(30.76731740928899, 31.324723163905162),
+        LatLng(30.766192712544985, 31.319380203757),
+        LatLng(30.762505090012066, 31.322126785704118),
+        LatLng(30.76158316231281, 31.31896177919064),
+      ],
+    );
+    polygons.add(polygon);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GoogleMap(
-          polylines: polylines,
+          // polylines: polylines,
+          polygons: polygons,
           zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
