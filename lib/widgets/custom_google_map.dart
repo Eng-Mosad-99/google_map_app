@@ -23,9 +23,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initMarkers();
     initPolyline();
     initPolygon();
+    initCircle();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
-      zoom: 14,
+      zoom: 12,
     );
   }
 
@@ -138,6 +139,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     polylines.add(polyline);
     // polylines.add(polyline2);
   }
+
   Set<Polygon> polygons = {};
   void initPolygon() {
     Polygon polygon = Polygon(
@@ -146,7 +148,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           LatLng(30.764980080722573, 31.321875755083035),
           LatLng(30.766244722433967, 31.32223990384524),
           LatLng(30.766645413989025, 31.322002958030883),
-        ]
+        ],
       ],
       fillColor: Colors.red.withValues(alpha: .4),
       strokeColor: Colors.red.withValues(alpha: .4),
@@ -162,13 +164,25 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     polygons.add(polygon);
   }
 
+  Set<Circle> circles = {};
+  void initCircle() {
+    Circle circle = Circle(
+      circleId: CircleId('1'),
+      center: LatLng(30.76496683364935, 31.321115345435743),
+      radius: 5000,
+      fillColor: Colors.red.withValues(alpha: .4),
+    );
+    circles.add(circle);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GoogleMap(
           // polylines: polylines,
-          polygons: polygons,
+          // polygons: polygons,
+          circles: circles,
           zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
