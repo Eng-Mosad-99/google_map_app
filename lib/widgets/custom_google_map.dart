@@ -141,6 +141,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   Set<Polygon> polygons = {};
   void initPolygon() {
     Polygon polygon = Polygon(
+      holes: [
+        [
+          LatLng(30.764980080722573, 31.321875755083035),
+          LatLng(30.766244722433967, 31.32223990384524),
+          LatLng(30.766645413989025, 31.322002958030883),
+        ]
+      ],
       fillColor: Colors.red.withValues(alpha: .4),
       strokeColor: Colors.red.withValues(alpha: .4),
       strokeWidth: 2,
