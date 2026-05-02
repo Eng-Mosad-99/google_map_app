@@ -21,6 +21,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     super.initState();
     initMapStyle();
     initMarkers();
+    initPolyline();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
       zoom: 14,
@@ -92,7 +93,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         .map(
           (place) => Marker(
             icon: customIcon,
-            infoWindow: InfoWindow(title: place.name , snippet: place.name),
+            infoWindow: InfoWindow(title: place.name, snippet: place.name),
             position: place.latLng,
             markerId: MarkerId(place.id.toString()),
           ),
@@ -102,18 +103,33 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     setState(() {});
   }
 
+  Set<Polyline> polylines = {};
+  void initPolyline() {
+    Polyline polyline = Polyline(
+      polylineId: PolylineId('1'),
+      points: [
+        LatLng(30.762431336101493, 31.316515604489545),
+        LatLng(30.76473611852077, 31.319744984043357),
+        LatLng(30.764026251422194, 31.32430473923952),
+        LatLng(30.767667721980498, 31.320667663959618),
+      ],
+    );
+    polylines.add(polyline);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GoogleMap(
+          polylines: polylines,
           zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
           onMapCreated: (controller) {
             googleMapController = controller;
           },
-          markers: markers,
+          // markers: markers,
         ),
         // Positioned(
         //   left: 16,
