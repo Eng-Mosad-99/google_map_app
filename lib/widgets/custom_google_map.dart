@@ -52,34 +52,37 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     );
     return imageByteData!.buffer.asUint8List();
   }
-Future<BitmapDescriptor> getColoredMarker(Color color) async {
-  final ByteData data = await rootBundle.load('assets/images/marker_image.png');
-  final Uint8List bytes = data.buffer.asUint8List();
 
-  final ui.Codec codec = await ui.instantiateImageCodec(bytes);
-  final ui.FrameInfo frame = await codec.getNextFrame();
-  final ui.Image image = frame.image;
+  Future<BitmapDescriptor> getColoredMarker(Color color) async {
+    final ByteData data = await rootBundle.load(
+      'assets/images/marker_image.png',
+    );
+    final Uint8List bytes = data.buffer.asUint8List();
 
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
+    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+    final ui.FrameInfo frame = await codec.getNextFrame();
+    final ui.Image image = frame.image;
 
-  final paint = Paint()
-    ..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
 
-  canvas.drawImage(image, Offset.zero, paint);
+    final paint = Paint()
+      ..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
 
-  final picture = recorder.endRecording();
-  final img = await picture.toImage(image.width, image.height);
-  final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+    canvas.drawImage(image, Offset.zero, paint);
 
-  return BitmapDescriptor.bytes(byteData!.buffer.asUint8List() , width: 30);
-}
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(image.width, image.height);
+    final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+
+    return BitmapDescriptor.bytes(byteData!.buffer.asUint8List(), width: 30);
+  }
 
   void initMarkers() async {
     // var markerAssetImage = BitmapDescriptor.bytes(
     //   await getImageFromRawData('assets/images/marker_image.png', 30),
     // );
-    var  customIcon = await getColoredMarker(Colors.red);
+    var customIcon = await getColoredMarker(Colors.red);
     //  BitmapDescriptor.asset(
     //   width: 30,
     //   ImageConfiguration.empty,
@@ -89,14 +92,14 @@ Future<BitmapDescriptor> getColoredMarker(Color color) async {
         .map(
           (place) => Marker(
             icon: customIcon,
-            infoWindow: InfoWindow(title: place.name),
+            infoWindow: InfoWindow(title: place.name , snippet: place.name),
             position: place.latLng,
             markerId: MarkerId(place.id.toString()),
           ),
         )
         .toSet();
     markers.addAll(myMarkers);
-      setState(() {});
+    setState(() {});
   }
 
   @override
@@ -104,6 +107,7 @@ Future<BitmapDescriptor> getColoredMarker(Color color) async {
     return Stack(
       children: [
         GoogleMap(
+          zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
           onMapCreated: (controller) {
@@ -111,24 +115,24 @@ Future<BitmapDescriptor> getColoredMarker(Color color) async {
           },
           markers: markers,
         ),
-        Positioned(
-          left: 16,
-          right: 16,
-          bottom: 16,
-          child: ElevatedButton(
-            onPressed: () {
-              googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    zoom: 18,
-                    target: LatLng(30.768090681310408, 31.32845033933248),
-                  ),
-                ),
-              );
-            },
-            child: Text('Change Location'),
-          ),
-        ),
+        // Positioned(
+        //   left: 16,
+        //   right: 16,
+        //   bottom: 16,
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       googleMapController.animateCamera(
+        //         CameraUpdate.newCameraPosition(
+        //           CameraPosition(
+        //             zoom: 18,
+        //             target: LatLng(30.768090681310408, 31.32845033933248),
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //     child: Text('Change Location'),
+        //   ),
+        // ),
       ],
     );
   }
