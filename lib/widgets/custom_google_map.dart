@@ -24,7 +24,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initPolyline();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
-      zoom: 14,
+      zoom: 1,
     );
   }
 
@@ -106,15 +106,36 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   Set<Polyline> polylines = {};
   void initPolyline() {
     Polyline polyline = Polyline(
+      color: Colors.red,
+      geodesic: true,
+      width: 5,
+      zIndex: 1,
+      // patterns: [PatternItem.dot],
+      startCap: Cap.roundCap,
       polylineId: PolylineId('1'),
       points: [
-        LatLng(30.762431336101493, 31.316515604489545),
-        LatLng(30.76473611852077, 31.319744984043357),
-        LatLng(30.764026251422194, 31.32430473923952),
-        LatLng(30.767667721980498, 31.320667663959618),
+        LatLng(53.61442606514419, 28.824231157958256),
+        LatLng(-22.292064936189306, 23.603794379853255),
+        // LatLng(30.76473611852077, 31.319744984043357),
+        // LatLng(30.764026251422194, 31.32430473923952),
+        // LatLng(30.767667721980498, 31.320667663959618),
       ],
     );
+    // Polyline polyline2 = Polyline(
+    //   color: Colors.green,
+    //   width: 5,
+    //   zIndex: 3,
+    //   startCap: Cap.roundCap,
+    //   polylineId: PolylineId('2'),
+    //   points: [
+    //     LatLng(30.76731740928899, 31.324723163905162),
+    //     LatLng(30.766192712544985, 31.319380203757),
+    //     LatLng(30.762505090012066, 31.322126785704118),
+    //     LatLng(30.76158316231281, 31.31896177919064),
+    //   ],
+    // );
     polylines.add(polyline);
+    // polylines.add(polyline2);
   }
 
   @override
