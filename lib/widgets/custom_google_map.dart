@@ -30,7 +30,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       zoom: 12,
     );
     location = Location();
-    checkAndRequestLocationService();
   }
 
   String? _mapStyle;
@@ -188,7 +187,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           style: _mapStyle,
           onMapCreated: (controller) {
             googleMapController = controller;
-            location.onLocationChanged.listen((locationData) {});
           },
           // markers: markers,
         ),
@@ -222,7 +220,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         //! TODO: show error bar
       }
     }
-    checkAndRequestLocationPermission();
   }
 
   void checkAndRequestLocationPermission() async {
@@ -233,6 +230,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         //! TODO: show error bar
       }
     }
+  }
+
+  void getLocationData() {
+    location.onLocationChanged.listen((locationData) {});
   }
 }
 
