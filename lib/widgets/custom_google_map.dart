@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_app/models/place_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class CustomGoogleMap extends StatefulWidget {
   const CustomGoogleMap({super.key});
@@ -15,7 +16,7 @@ class CustomGoogleMap extends StatefulWidget {
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   late CameraPosition initialCameraPosition;
   late GoogleMapController googleMapController;
-
+  late Location location;
   @override
   void initState() {
     super.initState();
@@ -28,6 +29,8 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       target: LatLng(30.762578494071878, 31.31647130125389),
       zoom: 12,
     );
+    location = Location();
+    checkAndRequestLocationService();
   }
 
   String? _mapStyle;
@@ -180,9 +183,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     return Stack(
       children: [
         GoogleMap(
-          // polylines: polylines,
-          // polygons: polygons,
-          circles: circles,
           zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
@@ -211,6 +211,16 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         // ),
       ],
     );
+  }
+
+  void checkAndRequestLocationService() async {
+    var isServiceEnabled = await location.serviceEnabled();
+    if (!isServiceEnabled) {
+      isServiceEnabled = await location.requestService();
+      if (!isServiceEnabled) {
+        //! TODO: show error bar
+      }
+    }
   }
 }
 
