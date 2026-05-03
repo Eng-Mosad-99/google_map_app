@@ -21,10 +21,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void initState() {
     super.initState();
     initMapStyle();
-    initMarkers();
-    initPolyline();
-    initPolygon();
-    initCircle();
+    // initMarkers();
+    // initPolyline();
+    // initPolygon();
+    // initCircle();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
       zoom: 12,
@@ -44,145 +44,147 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     });
   }
 
+  // Set<Marker> markers = {};
+
+  // Future<Uint8List> getImageFromRawData(String image, double width) async {
+  //   var imageData = await rootBundle.load(image);
+  //   var imageCodec = await ui.instantiateImageCodec(
+  //     imageData.buffer.asUint8List(),
+  //     targetWidth: width.round(),
+  //   );
+  //   var imageFrame = await imageCodec.getNextFrame();
+  //   var imageByteData = await imageFrame.image.toByteData(
+  //     format: ui.ImageByteFormat.png,
+  //   );
+  //   return imageByteData!.buffer.asUint8List();
+  // }
+
+  // Future<BitmapDescriptor> getColoredMarker(Color color) async {
+  //   final ByteData data = await rootBundle.load(
+  //     'assets/images/marker_image.png',
+  //   );
+  //   final Uint8List bytes = data.buffer.asUint8List();
+
+  //   final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+  //   final ui.FrameInfo frame = await codec.getNextFrame();
+  //   final ui.Image image = frame.image;
+
+  //   final recorder = ui.PictureRecorder();
+  //   final canvas = Canvas(recorder);
+
+  //   final paint = Paint()
+  //     ..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+
+  //   canvas.drawImage(image, Offset.zero, paint);
+
+  //   final picture = recorder.endRecording();
+  //   final img = await picture.toImage(image.width, image.height);
+  //   final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+
+  //   return BitmapDescriptor.bytes(byteData!.buffer.asUint8List(), width: 30);
+  // }
+
+  // void initMarkers() async {
+  //   // var markerAssetImage = BitmapDescriptor.bytes(
+  //   //   await getImageFromRawData('assets/images/marker_image.png', 30),
+  //   // );
+  //   var customIcon = await getColoredMarker(Colors.red);
+  //   //  BitmapDescriptor.asset(
+  //   //   width: 30,
+  //   //   ImageConfiguration.empty,
+  //   //   'assets/images/marker_image.png',
+  //   // );
+  //   var myMarkers = places
+  //       .map(
+  //         (place) => Marker(
+  //           icon: customIcon,
+  //           infoWindow: InfoWindow(title: place.name, snippet: place.name),
+  //           position: place.latLng,
+  //           markerId: MarkerId(place.id.toString()),
+  //         ),
+  //       )
+  //       .toSet();
+  //   markers.addAll(myMarkers);
+  //   setState(() {});
+  // }
+
+  // Set<Polyline> polylines = {};
+  // void initPolyline() {
+  //   Polyline polyline = Polyline(
+  //     color: Colors.red,
+  //     geodesic: true,
+  //     width: 5,
+  //     zIndex: 1,
+  //     // patterns: [PatternItem.dot],
+  //     startCap: Cap.roundCap,
+  //     polylineId: PolylineId('1'),
+  //     points: [
+  //       LatLng(53.61442606514419, 28.824231157958256),
+  //       LatLng(-22.292064936189306, 23.603794379853255),
+  //       // LatLng(30.76473611852077, 31.319744984043357),
+  //       // LatLng(30.764026251422194, 31.32430473923952),
+  //       // LatLng(30.767667721980498, 31.320667663959618),
+  //     ],
+  //   );
+  //   // Polyline polyline2 = Polyline(
+  //   //   color: Colors.green,
+  //   //   width: 5,
+  //   //   zIndex: 3,
+  //   //   startCap: Cap.roundCap,
+  //   //   polylineId: PolylineId('2'),
+  //   //   points: [
+  //   //     LatLng(30.76731740928899, 31.324723163905162),
+  //   //     LatLng(30.766192712544985, 31.319380203757),
+  //   //     LatLng(30.762505090012066, 31.322126785704118),
+  //   //     LatLng(30.76158316231281, 31.31896177919064),
+  //   //   ],
+  //   // );
+  //   polylines.add(polyline);
+  //   // polylines.add(polyline2);
+  // }
+
+  // Set<Polygon> polygons = {};
+  // void initPolygon() {
+  //   Polygon polygon = Polygon(
+  //     holes: [
+  //       [
+  //         LatLng(30.764980080722573, 31.321875755083035),
+  //         LatLng(30.766244722433967, 31.32223990384524),
+  //         LatLng(30.766645413989025, 31.322002958030883),
+  //       ],
+  //     ],
+  //     fillColor: Colors.red.withValues(alpha: .4),
+  //     strokeColor: Colors.red.withValues(alpha: .4),
+  //     strokeWidth: 2,
+  //     polygonId: PolygonId('1'),
+  //     points: [
+  //       LatLng(30.76731740928899, 31.324723163905162),
+  //       LatLng(30.766192712544985, 31.319380203757),
+  //       LatLng(30.762505090012066, 31.322126785704118),
+  //       LatLng(30.76158316231281, 31.31896177919064),
+  //     ],
+  //   );
+  //   polygons.add(polygon);
+  // }
+
+  // Set<Circle> circles = {};
+  // void initCircle() {
+  //   Circle circle = Circle(
+  //     circleId: CircleId('1'),
+  //     center: LatLng(30.76496683364935, 31.321115345435743),
+  //     radius: 5000,
+  //     fillColor: Colors.red.withValues(alpha: .4),
+  //   );
+  //   circles.add(circle);
+  // }
+
   Set<Marker> markers = {};
-
-  Future<Uint8List> getImageFromRawData(String image, double width) async {
-    var imageData = await rootBundle.load(image);
-    var imageCodec = await ui.instantiateImageCodec(
-      imageData.buffer.asUint8List(),
-      targetWidth: width.round(),
-    );
-    var imageFrame = await imageCodec.getNextFrame();
-    var imageByteData = await imageFrame.image.toByteData(
-      format: ui.ImageByteFormat.png,
-    );
-    return imageByteData!.buffer.asUint8List();
-  }
-
-  Future<BitmapDescriptor> getColoredMarker(Color color) async {
-    final ByteData data = await rootBundle.load(
-      'assets/images/marker_image.png',
-    );
-    final Uint8List bytes = data.buffer.asUint8List();
-
-    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
-    final ui.FrameInfo frame = await codec.getNextFrame();
-    final ui.Image image = frame.image;
-
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder);
-
-    final paint = Paint()
-      ..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
-
-    canvas.drawImage(image, Offset.zero, paint);
-
-    final picture = recorder.endRecording();
-    final img = await picture.toImage(image.width, image.height);
-    final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
-
-    return BitmapDescriptor.bytes(byteData!.buffer.asUint8List(), width: 30);
-  }
-
-  void initMarkers() async {
-    // var markerAssetImage = BitmapDescriptor.bytes(
-    //   await getImageFromRawData('assets/images/marker_image.png', 30),
-    // );
-    var customIcon = await getColoredMarker(Colors.red);
-    //  BitmapDescriptor.asset(
-    //   width: 30,
-    //   ImageConfiguration.empty,
-    //   'assets/images/marker_image.png',
-    // );
-    var myMarkers = places
-        .map(
-          (place) => Marker(
-            icon: customIcon,
-            infoWindow: InfoWindow(title: place.name, snippet: place.name),
-            position: place.latLng,
-            markerId: MarkerId(place.id.toString()),
-          ),
-        )
-        .toSet();
-    markers.addAll(myMarkers);
-    setState(() {});
-  }
-
-  Set<Polyline> polylines = {};
-  void initPolyline() {
-    Polyline polyline = Polyline(
-      color: Colors.red,
-      geodesic: true,
-      width: 5,
-      zIndex: 1,
-      // patterns: [PatternItem.dot],
-      startCap: Cap.roundCap,
-      polylineId: PolylineId('1'),
-      points: [
-        LatLng(53.61442606514419, 28.824231157958256),
-        LatLng(-22.292064936189306, 23.603794379853255),
-        // LatLng(30.76473611852077, 31.319744984043357),
-        // LatLng(30.764026251422194, 31.32430473923952),
-        // LatLng(30.767667721980498, 31.320667663959618),
-      ],
-    );
-    // Polyline polyline2 = Polyline(
-    //   color: Colors.green,
-    //   width: 5,
-    //   zIndex: 3,
-    //   startCap: Cap.roundCap,
-    //   polylineId: PolylineId('2'),
-    //   points: [
-    //     LatLng(30.76731740928899, 31.324723163905162),
-    //     LatLng(30.766192712544985, 31.319380203757),
-    //     LatLng(30.762505090012066, 31.322126785704118),
-    //     LatLng(30.76158316231281, 31.31896177919064),
-    //   ],
-    // );
-    polylines.add(polyline);
-    // polylines.add(polyline2);
-  }
-
-  Set<Polygon> polygons = {};
-  void initPolygon() {
-    Polygon polygon = Polygon(
-      holes: [
-        [
-          LatLng(30.764980080722573, 31.321875755083035),
-          LatLng(30.766244722433967, 31.32223990384524),
-          LatLng(30.766645413989025, 31.322002958030883),
-        ],
-      ],
-      fillColor: Colors.red.withValues(alpha: .4),
-      strokeColor: Colors.red.withValues(alpha: .4),
-      strokeWidth: 2,
-      polygonId: PolygonId('1'),
-      points: [
-        LatLng(30.76731740928899, 31.324723163905162),
-        LatLng(30.766192712544985, 31.319380203757),
-        LatLng(30.762505090012066, 31.322126785704118),
-        LatLng(30.76158316231281, 31.31896177919064),
-      ],
-    );
-    polygons.add(polygon);
-  }
-
-  Set<Circle> circles = {};
-  void initCircle() {
-    Circle circle = Circle(
-      circleId: CircleId('1'),
-      center: LatLng(30.76496683364935, 31.321115345435743),
-      radius: 5000,
-      fillColor: Colors.red.withValues(alpha: .4),
-    );
-    circles.add(circle);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GoogleMap(
+          markers: markers,
           zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           style: _mapStyle,
@@ -243,6 +245,14 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         zoom: 15,
         target: LatLng(locationData.latitude!, locationData.longitude!),
       );
+      var myLocationMarker = Marker(
+        markerId: MarkerId('my_location_marker'),
+        position: LatLng(locationData.latitude!, locationData.longitude!),
+      );
+      markers.add(myLocationMarker);
+      setState(() {
+        
+      });
       googleMapController?.animateCamera(
         CameraUpdate.newCameraPosition(cameraPosition),
       );
