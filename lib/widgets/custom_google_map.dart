@@ -188,6 +188,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           style: _mapStyle,
           onMapCreated: (controller) {
             googleMapController = controller;
+            location.onLocationChanged.listen((locationData) {});
           },
           // markers: markers,
         ),
