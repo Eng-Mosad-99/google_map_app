@@ -15,7 +15,7 @@ class CustomGoogleMap extends StatefulWidget {
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   late CameraPosition initialCameraPosition;
-  late GoogleMapController googleMapController;
+  GoogleMapController? googleMapController;
   late Location location;
   @override
   void initState() {
@@ -238,7 +238,15 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 
   void getLocationData() {
-    location.onLocationChanged.listen((locationData) {});
+    location.onLocationChanged.listen((locationData) {
+      var cameraPosition = CameraPosition(
+        zoom: 15,
+        target: LatLng(locationData.latitude!, locationData.longitude!),
+      );
+      googleMapController?.animateCamera(
+        CameraUpdate.newCameraPosition(cameraPosition),
+      );
+    });
   }
 
   void updateMyLocation() async {
