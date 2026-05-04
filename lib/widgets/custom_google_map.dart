@@ -22,7 +22,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initMapStyle();
     initialCameraPosition = CameraPosition(
       target: LatLng(30.762578494071878, 31.31647130125389),
-      zoom: 12,
+      zoom: 1,
     );
     location = Location();
     locationService = LocationService();
@@ -41,6 +41,8 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 
   Set<Marker> markers = {};
+
+  bool isFirstCall = true;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,26 +61,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     );
   }
 
-  // void getLocationData() {
-  //   location.changeSettings(distanceFilter: 2);
-
-  //   location.onLocationChanged.listen((locationData) {
-  //     var cameraPosition = CameraPosition(
-  //       zoom: 15,
-  //       target: LatLng(locationData.latitude!, locationData.longitude!),
-  //     );
-  //     var myLocationMarker = Marker(
-  //       markerId: MarkerId('my_location_marker'),
-  //       position: LatLng(locationData.latitude!, locationData.longitude!),
-  //     );
-  //     markers.add(myLocationMarker);
-  //     setState(() {});
-  //     googleMapController?.animateCamera(
-  //       CameraUpdate.newCameraPosition(cameraPosition),
-  //     );
-  //   });
-  // }
-
   void updateMyLocation() async {
     await locationService.checkAndRequestLocationService();
     bool hasPermission = await locationService
@@ -88,20 +70,29 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       locationService.getRealTimeLocationData((locationData) {
         location.onLocationChanged.listen((locationData) {
           setMyLocationMarker(locationData);
-          setMyCameraPosition(locationData);
+          updateMyCamera(locationData);
         });
       });
     } else {}
   }
 
-  void setMyCameraPosition(LocationData locationData) {
-    var cameraPosition = CameraPosition(
-      zoom: 15,
-      target: LatLng(locationData.latitude!, locationData.longitude!),
-    );
-    googleMapController?.animateCamera(
-      CameraUpdate.newCameraPosition(cameraPosition),
-    );
+  void updateMyCamera(LocationData locationData) {
+    if (isFirstCall) {
+      CameraPosition cameraPosition = CameraPosition(
+        target: LatLng(locationData.latitude!, locationData.longitude!),
+        zoom: 17,
+      );
+      googleMapController?.animateCamera(
+        CameraUpdate.newCameraPosition(cameraPosition),
+      );
+      isFirstCall = false;
+    } else {
+      googleMapController?.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(locationData.latitude!, locationData.longitude!),
+        ),
+      );
+    }
   }
 
   void setMyLocationMarker(LocationData locationData) {
