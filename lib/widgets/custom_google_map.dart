@@ -240,6 +240,9 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 
   void getLocationData() {
+    location.changeSettings(
+      distanceFilter: 2,
+    );
     location.onLocationChanged.listen((locationData) {
       var cameraPosition = CameraPosition(
         zoom: 15,
@@ -251,7 +254,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       );
       markers.add(myLocationMarker);
       setState(() {
-        
+
       });
       googleMapController?.animateCamera(
         CameraUpdate.newCameraPosition(cameraPosition),
